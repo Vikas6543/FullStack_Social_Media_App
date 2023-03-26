@@ -10,10 +10,15 @@ import { persistor, store } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 
 toast.configure({
   autoClose: 2000,
 });
+
+if (process.env.NODE_ENV === 'production') {
+  disableReactDevTools();
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
