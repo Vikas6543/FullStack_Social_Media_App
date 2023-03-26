@@ -1,0 +1,120 @@
+/* main font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap');
+
+/* brand name font */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+/* reset default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* set default font and background color */
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #fff;
+}
+
+/* set default link styles */
+a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* set default heading styles */
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* set default list styles */
+ul, ol {
+  margin-bottom: 16px;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+
+.main-color {
+  color: #085af3;
+}
+
+.bg-color {
+  background-color: #085af3;
+}
+
+.brand-font {
+  font-family: 'Pacifico', cursive;
+}
+
+/* button */
+.custom-button {
+  background: linear-gradient(to right, #085af3, #72b6ee);
+  border: none;
+  color: white;
+  padding: 12px 0;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+}
+
+.custom-button:hover {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.outlet {
+  margin-left: 46%;
+}
+
+/* recent posts */
+.postImage {
+  width: 100%;
+  object-fit: cover;
+  height: 550px;
+}
+
+@media screen and (max-width: 950px) {
+  .outlet {
+    margin-left: 20%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .outlet {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .postImage {
+    height: 350px;
+  }
+}
+
