@@ -12,9 +12,12 @@ const ForgotPassword = () => {
     event.preventDefault();
     try {
       setIsLoading(true);
-      const response = await axios.post('/user/forgotPassword', {
-        email,
-      });
+      const response = await axios.post(
+        'https://mern-stack-app-api-pc1h.onrender.com/user/forgotPassword',
+        {
+          email,
+        }
+      );
       setIsLoading(false);
       toast.success(response.data.message);
     } catch (error) {

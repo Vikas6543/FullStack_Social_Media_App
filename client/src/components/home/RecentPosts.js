@@ -79,7 +79,9 @@ const RecentPosts = ({ getRecentPosts }) => {
     dispatch({ type: RECENT_POSTS, payload: newRecentPosts });
 
     try {
-      const response = await axios.put(`/post/like/${id}`);
+      const response = await axios.put(
+        `https://mern-stack-app-api-pc1h.onrender.com/post/like/${id}`
+      );
       if (!response) {
         throw new Error('Failed to update like count');
       }
@@ -91,7 +93,9 @@ const RecentPosts = ({ getRecentPosts }) => {
 
   const deletePostHandler = async () => {
     try {
-      const response = await axios.delete(`/post/${deletePostId}`);
+      const response = await axios.delete(
+        `https://mern-stack-app-api-pc1h.onrender.com/post/${deletePostId}`
+      );
       if (response) {
         getRecentPosts();
         setOpen(false);

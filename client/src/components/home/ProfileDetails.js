@@ -28,7 +28,9 @@ const ProfileDetails = () => {
   const getUserProfileById = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`/user/profile/${id}`);
+      const response = await axios.get(
+        `https://mern-stack-app-api-pc1h.onrender.com/user/profile/${id}`
+      );
       if (response) {
         setIsLoading(false);
         dispatch({
@@ -45,7 +47,9 @@ const ProfileDetails = () => {
   // update the user's followers list after following
   const updateFollowersList = async (id) => {
     try {
-      const response = await axios.get(`/user/profile/${id}`);
+      const response = await axios.get(
+        `https://mern-stack-app-api-pc1h.onrender.com/user/profile/${id}`
+      );
       if (response) {
         setIsLoading(false);
         dispatch({
@@ -61,7 +65,9 @@ const ProfileDetails = () => {
   // update the logged in user's details in the redux store
   const updateLoggedInUserDetails = async () => {
     try {
-      const response = await axios.get('/user/profile');
+      const response = await axios.get(
+        'https://mern-stack-app-api-pc1h.onrender.com/user/profile'
+      );
       dispatch({
         type: LOGGED_IN_USER_PROFILE_DETAILS,
         payload: response?.data.user,
@@ -75,7 +81,9 @@ const ProfileDetails = () => {
   const followHandler = (id) => async () => {
     try {
       setFollowLoading(true);
-      const response = await axios.put(`/user/follow/${id}`);
+      const response = await axios.put(
+        `https://mern-stack-app-api-pc1h.onrender.com/user/follow/${id}`
+      );
       if (response) {
         setFollowLoading(false);
         updateFollowersList(id);

@@ -33,13 +33,18 @@ const UploadPost = ({ handleClose }) => {
 
   const uploadHandler = async () => {
     try {
-      const response = await axios.post('/post', {
-        imageUrl,
-      });
+      const response = await axios.post(
+        'https://mern-stack-app-api-pc1h.onrender.com/post',
+        {
+          imageUrl,
+        }
+      );
       if (response) {
         handleClose();
         try {
-          const response = await axios.get('/post');
+          const response = await axios.get(
+            'https://mern-stack-app-api-pc1h.onrender.com/post'
+          );
           if (response) {
             dispatch({ type: RECENT_POSTS, payload: response?.data.posts });
           }

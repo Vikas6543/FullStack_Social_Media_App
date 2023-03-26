@@ -14,7 +14,9 @@ const Layout = () => {
   // get profile details
   const getProfileDetails = async () => {
     try {
-      const response = await axios.get('/user/profile');
+      const response = await axios.get(
+        'https://mern-stack-app-api-pc1h.onrender.com/user/profile'
+      );
       setProfileDetails(response?.data.user);
       dispatch({
         type: LOGGED_IN_USER_PROFILE_DETAILS,

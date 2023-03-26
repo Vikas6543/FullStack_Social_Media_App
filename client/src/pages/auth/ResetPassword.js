@@ -42,7 +42,7 @@ const ResetPassword = () => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post('/user/resetPassword', {
+      const response = await axios.post('https://mern-stack-app-api-pc1h.onrender.com/user/resetPassword', {
         resetPassword: NewPassword,
         token,
         id,

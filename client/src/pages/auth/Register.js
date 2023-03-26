@@ -56,7 +56,10 @@ const Register = () => {
       },
       body: JSON.stringify(data),
     };
-    fetch('/user/register', requestOptions)
+    fetch(
+      'https://mern-stack-app-api-pc1h.onrender.com/user/register',
+      requestOptions
+    )
       .then((data) => {
         if (data) {
           setIsLoading(false);

@@ -19,14 +19,19 @@ const CommentsList = ({ recentPosts, commentPostId }) => {
   const commentSubmitHandler = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.put(`/post/comment/${commentPostId}`, {
-        text: comment,
-      });
+      const response = await axios.put(
+        `https://mern-stack-app-api-pc1h.onrender.com/post/comment/${commentPostId}`,
+        {
+          text: comment,
+        }
+      );
       setIsLoading(false);
       if (response) {
         setComment('');
         try {
-          const response = await axios.get('/post');
+          const response = await axios.get(
+            'https://mern-stack-app-api-pc1h.onrender.com/post'
+          );
           if (response) {
             dispatch({ type: RECENT_POSTS, payload: response?.data.posts });
           }

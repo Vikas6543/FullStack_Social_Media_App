@@ -37,7 +37,9 @@ const Header = ({ profileDetails }) => {
   // get recent posts
   const getRecentPosts = async () => {
     try {
-      const response = await axios.get('/post');
+      const response = await axios.get(
+        'https://mern-stack-app-api-pc1h.onrender.com/post'
+      );
       if (response) {
         return dispatch({ type: RECENT_POSTS, payload: response?.data.posts });
       }

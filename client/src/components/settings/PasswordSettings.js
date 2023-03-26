@@ -20,11 +20,14 @@ const PasswordSettings = () => {
   const updatePassword = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.put('/user/updatePassword', {
-        oldPassword,
-        newPassword,
-        confirmNewPassword,
-      });
+      const response = await axios.put(
+        'https://mern-stack-app-api-pc1h.onrender.com/user/updatePassword',
+        {
+          oldPassword,
+          newPassword,
+          confirmNewPassword,
+        }
+      );
       setIsLoading(false);
       setOldPassword('');
       setNewPassword('');

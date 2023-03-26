@@ -16,7 +16,9 @@ const Profile = () => {
   const getProfileDetails = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('/user/profile');
+      const response = await axios.get(
+        'https://mern-stack-app-api-pc1h.onrender.com/user/profile'
+      );
       setIsLoading(false);
       setProfileDetails(response?.data.user);
     } catch (error) {

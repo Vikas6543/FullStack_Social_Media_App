@@ -36,7 +36,10 @@ const Login = () => {
       },
       body: JSON.stringify(data),
     };
-    fetch('/user/login', requestOptions)
+    fetch(
+      'https://mern-stack-app-api-pc1h.onrender.com/user/login',
+      requestOptions
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error('Invalid email or password');
