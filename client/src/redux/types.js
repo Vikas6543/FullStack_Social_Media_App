@@ -17,3 +17,7 @@ export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 
 // get logged in user profile details
 export const LOGGED_IN_USER_PROFILE_DETAILS = 'LOGGED_IN_USER_PROFILE_DETAILS';
+
+export const SEARCH_INPUT_SHOW = 'SEARCH_INPUT_SHOW';
+
+export const PROFILE_POSTS = 'PROFILE_POSTS';

@@ -1,9 +1,10 @@
 import { TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuthHeader } from '../../api/axiosInstance';
 import { toast } from 'react-toastify';
+import { LOGGED_IN_USER_PROFILE_DETAILS } from '../../redux/types';
 
 const ProfileSettings = () => {
   const [name, setName] = useState(null);
@@ -13,6 +14,7 @@ const ProfileSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const token = useSelector((state) => state.auth?.user?.token);
+  const dispatch = useDispatch();
 
   // get profile details
   const getProfileDetails = async () => {
@@ -28,9 +30,9 @@ const ProfileSettings = () => {
       if (response?.data?.user?.email) {
         setEmail(response.data.user.email);
       }
-      if (response?.data?.user?.profilePicUrl) {
-        setProfilePicUrl(response.data.user.profilePicUrl);
-      }
+      // if (response?.data?.user?.profilePicUrl) {
+      //   setProfilePicUrl(response.data.user.profilePicUrl);
+      // }
     } catch (error) {
       setIsLoading(false);
       console.log(error);
@@ -56,6 +58,10 @@ const ProfileSettings = () => {
       if (response?.data?.user?.email) {
         setEmail(response.data.user.email);
       }
+      dispatch({
+        type: LOGGED_IN_USER_PROFILE_DETAILS,
+        payload: response?.data.user,
+      });
     } catch (error) {
       setIsLoading(false);
       console.log(error);
@@ -76,26 +82,17 @@ const ProfileSettings = () => {
   }, [token]);
 
   return (
-    <div>
+    <div className='mx-auto'>
       <div className='mb-4'>
-        <Typography variant='h5' className='text-center py-2'>
-          <i className='fa fa-user text-2xl pr-4'></i>
+        <p variant='h5' className='lg:pl-44 pl-16 py-2 text-md lg:text-2xl'>
+          <i className='fa fa-user lg:text-2xl pr-4'></i>
           Update Your Profile
-        </Typography>
+        </p>
       </div>
 
-      {isLoading ? (
-        <div class='animate-pulse space-y-4 mt-4'>
-          <div class='bg-gray-200 h-6 rounded w-1/2'></div>
-          <div class='bg-gray-200 h-6 rounded w-full'></div>
-          <div class='bg-gray-200 h-10 mt-6 rounded w-full flex justify-center items-center'>
-            <div class='w-6 h-6 border-b-2 border-gray-100 rounded-full animate-spin'></div>
-          </div>
-        </div>
-      ) : (
-        <main className='flex'>
-          {/* profile picture */}
-          <section className='profileUpdate'>
+      <main className='flex'>
+        {/* profile picture */}
+        {/* <section className='profileUpdate'>
             <div className='w-32 h-32 relative'>
               <img
                 src={profilePicUrl}
@@ -112,47 +109,45 @@ const ProfileSettings = () => {
                 Update
               </button>
             </div>
-          </section>
+          </section> */}
 
-          {/* name and email */}
-          <section className='flex flex-col w-7/12 -mt-2 m-auto'>
-            <TextField
-              value={name || ''}
-              margin='normal'
-              fullWidth
-              id='name'
-              autoComplete='name'
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
+        {/* name and email */}
+        <section className='-mt-2 lg:ml-24'>
+          <input
+            type='text'
+            value={name || ''}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            className='border-2 border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent mb-4'
+          />
 
-            <TextField
-              value={email || ''}
-              margin='normal'
-              fullWidth
-              id='email'
-              name='email'
-              autoComplete='email'
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
+          <input
+            type='text'
+            value={email || ''}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            className='border-2 border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent '
+          />
 
-            <div className='mb-3 mt-6'>
-              <button className='custom-button' onClick={updateProfileHandler}>
-                {isLoading ? (
-                  <div className='flex items-center justify-center '>
-                    <div className='w-6 h-6 border-b-2 border-gray-100 rounded-full animate-spin'></div>
-                  </div>
-                ) : (
-                  <span>Update</span>
-                )}
-              </button>
-            </div>
-          </section>
-        </main>
-      )}
+          <div className='mb-3 mt-6'>
+            <button
+              style={{ padding: '14px 0' }}
+              className='custom-button'
+              onClick={updateProfileHandler}
+            >
+              {isLoading ? (
+                <div className='flex items-center justify-center '>
+                  <div className='w-7 h-7 border-b-2 border-gray-100 rounded-full animate-spin'></div>
+                </div>
+              ) : (
+                <span>Update</span>
+              )}
+            </button>
+          </div>
+        </section>
+      </main>
     </div>
   );
 };

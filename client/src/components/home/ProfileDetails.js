@@ -22,7 +22,7 @@ const ProfileDetails = () => {
 
   const token = useSelector((state) => state.auth?.user?.token);
   const loggedInUserId = useSelector((state) => state.auth?.user?.user._id);
-  const profileDetails = useSelector((state) => state.post.userProfileDetails);
+  const profileDetails = useSelector((state) => state.post?.userProfileDetails);
 
   // get user profile by id
   const getUserProfileById = async () => {
@@ -101,9 +101,9 @@ const ProfileDetails = () => {
   }, []);
 
   return (
-    <div className='w-8/12 -mt-4'>
+    <div className='lg:w-8/12 -mt-4'>
       {isLoading ? (
-        <div>
+        <div style={{ marginTop: '-30%', marginLeft: '-40%' }}>
           <LoadingSpinner />
         </div>
       ) : (
@@ -117,25 +117,27 @@ const ProfileDetails = () => {
             </Link>
           </div>
 
-          <div className='flex items-center justify-between pt-6'>
+          <div className='flex items-center lg:justify-between pt-6'>
             {/* profile image */}
             <section>
               <img
                 src={profileDetails?.profilePicUrl}
                 alt='profile'
-                className='w-36 h-36 rounded-full'
+                className='lg:w-36 lg:h-36 w-20 h-20 rounded-full'
               />
             </section>
 
             {/* profile title */}
-            <section className='pl-24 relative'>
-              <p className='text-4xl font-bold'>{profileDetails?.name}</p>
+            <section className='lg:pl-24 pl-8 lg:relative'>
+              <p className='lg:text-4xl text-2xl font-bold'>
+                {profileDetails?.name}
+              </p>
 
               {/* admin */}
               {profileDetails?.role === 'admin' && (
                 <Tooltip title='Admin'>
                   <p
-                    className='text-md bg-green-500 ml-2 text-white rounded-lg text-sm py-2 px-4 mt-5 float-left flex items-center justify-center cursor-pointer'
+                    className='text-md bg-green-500 ml-2 text-white rounded-lg text-sm py-2 px-4 mt-5 float-left flex items-center justify-center cursor-pointer hidden lg:block'
                     style={{ fontWeight: '500' }}
                   >
                     <i className='fas fa-user-shield text-lg'></i>
@@ -144,14 +146,14 @@ const ProfileDetails = () => {
               )}
 
               {/* follow, unFollow & message */}
-              <div className='mt-4'>
+              <div className='lg:mt-4 mt-2'>
                 {profileDetails?.followers?.includes(loggedInUserId) ? (
                   <>
                     <button
                       className={
                         followLoading
-                          ? 'bg-blue-300 text-white rounded-lg text-sm py-2 px-2 mx-3'
-                          : 'bg-blue-500 text-white rounded-lg text-sm py-2 px-3 mx-3'
+                          ? 'bg-blue-300 text-white rounded-lg text-sm py-2 px-2 lg:mx-3 mx-1'
+                          : 'bg-blue-500 text-white rounded-lg text-sm py-2 px-3 lg:mx-3 mx-1'
                       }
                       style={{ fontWeight: '500' }}
                       onClick={followHandler(profileDetails?._id)}
@@ -164,8 +166,8 @@ const ProfileDetails = () => {
                     <button
                       className={
                         followLoading
-                          ? 'bg-blue-300 text-white rounded-lg text-sm py-2 px-3 mx-3'
-                          : 'bg-blue-500 text-white rounded-lg text-sm py-2 px-3 mx-3'
+                          ? 'bg-blue-300 text-white rounded-lg text-sm py-2 px-3 lg:mx-3 mx-1'
+                          : 'bg-blue-500 text-white rounded-lg text-sm py-2 px-3 lg:mx-3 mx-1'
                       }
                       style={{ fontWeight: '500' }}
                       onClick={followHandler(profileDetails?._id)}

@@ -46,140 +46,73 @@ const PasswordSettings = () => {
 
   useEffect(() => {
     setAuthHeader(token);
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 300);
   }, []);
 
   return (
-    <div className='relative'>
-      <section>
-        <Typography variant='h5' className='text-center py-2'>
-          <i className='fa fa-lock text-2xl pr-4'></i>
+    <div>
+      <section className='mb-4'>
+        <p variant='h5' className='lg:pl-44 pl-16 py-2 text-md lg:text-2xl'>
+          <i className='fa fa-user lg:text-2xl pr-4'></i>
           Update Your Password
-        </Typography>
+        </p>
       </section>
 
-      {isLoading ? (
-        <div class='animate-pulse space-y-4 mt-4'>
-          <div class='bg-gray-200 h-6 rounded w-1/2'></div>
-          <div class='bg-gray-200 h-6 rounded w-full'></div>
-          <div class='bg-gray-200 h-6 rounded w-full'></div>
-          <div class='bg-gray-200 h-10 mt-6 rounded w-full flex justify-center items-center'>
-            <div class='w-6 h-6 border-b-2 border-gray-100 rounded-full animate-spin'></div>
-          </div>
+      <main className='lg:w-6/12 lg:ml-24'>
+        {/* old password */}
+        <section>
+          <input
+            placeholder='Old Password'
+            type={isOldPasswordShown ? 'text' : 'password'}
+            onChange={(e) => {
+              setOldPassword(e.target.value);
+            }}
+            value={oldPassword}
+            className='border-2 border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent mb-4'
+          />
+        </section>
+
+        {/* new password */}
+        <section>
+          <input
+            placeholder='New Password'
+            type={isNewPasswordShown ? 'text' : 'password'}
+            onChange={(e) => {
+              setNewPassword(e.target.value);
+            }}
+            value={newPassword}
+            className='border-2 border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent mb-4'
+          />
+        </section>
+
+        {/* confirm new password */}
+        <section>
+          <input
+            placeholder='Confirm New Password'
+            type={isConfirmNewPasswordShown ? 'text' : 'password'}
+            onChange={(e) => {
+              setConfirmNewPassword(e.target.value);
+            }}
+            value={confirmNewPassword}
+            className='border-2 border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent mb-4'
+          />
+        </section>
+
+        <div className='mb-3 mt-6'>
+          <button
+            style={{ padding: '14px 0' }}
+            className='custom-button'
+            onClick={passwordUpdateHandler}
+          >
+            {isLoading ? (
+              <div className='flex items-center justify-center '>
+                <div className='w-7 h-7 border-b-2 border-gray-100 rounded-full animate-spin'></div>
+              </div>
+            ) : (
+              <span>Update</span>
+            )}
+          </button>
         </div>
-      ) : (
-        <main className='w-7/12 m-auto'>
-          {/* old password */}
-          <section>
-            <TextField
-              margin='normal'
-              fullWidth
-              name='old-password'
-              label='Old Password'
-              type={isOldPasswordShown ? 'text' : 'password'}
-              onChange={(e) => {
-                setOldPassword(e.target.value);
-              }}
-              value={oldPassword}
-            />
-
-            <div
-              style={{
-                position: 'absolute',
-                top: 82,
-                right: 165,
-                cursor: 'pointer',
-              }}
-              onClick={() => setIsOldPasswordShown(!isOldPasswordShown)}
-            >
-              {isOldPasswordShown ? (
-                <i className='fas fa-eye'></i>
-              ) : (
-                <i className='fas fa-eye-slash'></i>
-              )}
-            </div>
-          </section>
-
-          {/* new password */}
-          <section>
-            <TextField
-              margin='normal'
-              fullWidth
-              name='new-password'
-              label='New Password'
-              type={isNewPasswordShown ? 'text' : 'password'}
-              onChange={(e) => {
-                setNewPassword(e.target.value);
-              }}
-              value={newPassword}
-            />
-
-            <div
-              style={{
-                position: 'absolute',
-                top: 162,
-                right: 165,
-                cursor: 'pointer',
-              }}
-              onClick={() => setIsNewPasswordShown(!isNewPasswordShown)}
-            >
-              {isNewPasswordShown ? (
-                <i className='fas fa-eye'></i>
-              ) : (
-                <i className='fas fa-eye-slash'></i>
-              )}
-            </div>
-          </section>
-
-          {/* confirm new password */}
-          <section>
-            <TextField
-              margin='normal'
-              fullWidth
-              name='confirm-new-password'
-              label='Confirm Password'
-              type={isConfirmNewPasswordShown ? 'text' : 'password'}
-              onChange={(e) => {
-                setConfirmNewPassword(e.target.value);
-              }}
-              value={confirmNewPassword}
-            />
-
-            <div
-              style={{
-                position: 'absolute',
-                top: 242,
-                right: 165,
-                cursor: 'pointer',
-              }}
-              onClick={() =>
-                setIsConfirmNewPasswordShown(!isConfirmNewPasswordShown)
-              }
-            >
-              {isConfirmNewPasswordShown ? (
-                <i className='fas fa-eye'></i>
-              ) : (
-                <i className='fas fa-eye-slash'></i>
-              )}
-            </div>
-          </section>
-
-          <div className='mb-3 mt-6'>
-            <button className='custom-button' onClick={passwordUpdateHandler}>
-              {isLoading ? (
-                <div className='flex items-center justify-center '>
-                  <div className='w-6 h-6 border-b-2 border-gray-100 rounded-full animate-spin'></div>
-                </div>
-              ) : (
-                <span>Update</span>
-              )}
-            </button>
-          </div>
-        </main>
-      )}
+      </main>
     </div>
   );
 };

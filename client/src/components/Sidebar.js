@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { store } from '../redux/store';
 import { CLEAR_AUTH } from '../redux/types';
 
 const Sidebar = () => {
+  const [posts, setPosts] = React.useState([]);
   const loggedInUserDetails = useSelector(
-    (state) => state.auth.loggedInUserDetails
+    (state) => state.auth?.loggedInUserDetails
   );
+  const recentPosts = useSelector((state) => state.post?.recentPosts);
+  const loggedInUserId = useSelector((state) => state.auth?.user?.user._id);
 
   const logoutHandler = () => {
     store.dispatch({ type: CLEAR_AUTH });
     window.location.reload();
   };
+
+  useEffect(() => {
+    const filteredPosts = recentPosts.filter((post) => {
+      return post.postOwner._id === loggedInUserId;
+    });
+    setPosts(filteredPosts);
+  }, [recentPosts, loggedInUserId]);
+
+  console.log('sidebar: ', loggedInUserDetails);
 
   return (
     <div>
@@ -33,23 +45,38 @@ const Sidebar = () => {
         {/* post, following, followers */}
         <div className='flex items-center justify-between px-8 mt-3'>
           <div>
-            <p className='text-center pt-5 text-lg font-bold'>Posts</p>
+            <p
+              className='text-center pt-5 text-lg'
+              style={{ fontWeight: '500' }}
+            >
+              Posts
+            </p>
             <p className='text-center font-medium text-gray-600 pt-1 text-lg'>
-              {loggedInUserDetails?.post?.length}
+              {posts?.length}
             </p>
           </div>
 
           <div>
-            <p className='text-center pt-5 text-lg font-bold'>Following</p>
-            <p className='text-center font-medium text-gray-600 pt-1 text-lg'>
-              {loggedInUserDetails?.following?.length}
+            <p
+              className='text-center pt-5 text-lg'
+              style={{ fontWeight: '500' }}
+            >
+              Followers
             </p>
-          </div>
-
-          <div>
-            <p className='text-center pt-5 text-lg font-bold'>Followers</p>
             <p className='text-center font-medium text-gray-600 pt-1 text-lg'>
               {loggedInUserDetails?.followers?.length}
+            </p>
+          </div>
+
+          <div>
+            <p
+              className='text-center pt-5 text-lg'
+              style={{ fontWeight: '500' }}
+            >
+              Following
+            </p>
+            <p className='text-center font-medium text-gray-600 pt-1 text-lg'>
+              {loggedInUserDetails?.following?.length}
             </p>
           </div>
         </div>

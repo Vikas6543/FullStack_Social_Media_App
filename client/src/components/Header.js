@@ -18,6 +18,10 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+
+  '@media (max-width: 600px)': {
+    width: '95%',
+  },
 };
 
 const Header = ({ profileDetails }) => {
@@ -30,8 +34,14 @@ const Header = ({ profileDetails }) => {
   const dispatch = useDispatch();
   const recentPosts = useSelector((state) => state.post?.recentPosts);
   const token = useSelector((state) => state.auth?.user?.token);
+  const [posts, setPosts] = React.useState([]);
   const loggedInUserDetails = useSelector(
-    (state) => state.auth.loggedInUserDetails
+    (state) => state.auth?.loggedInUserDetails
+  );
+  const loggedInUserId = useSelector((state) => state.auth?.user?.user._id);
+
+  const isSearchInputShow = useSelector(
+    (state) => state.post?.isSearchInputShow
   );
 
   // get recent posts
@@ -73,6 +83,12 @@ const Header = ({ profileDetails }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // clear input handler
+  const clearInputHandler = () => {
+    setSearchInput('');
+    getRecentPosts();
+  };
+
   // logout handler
   const logoutHandler = () => {
     setIsMenuOpen(false);
@@ -89,6 +105,13 @@ const Header = ({ profileDetails }) => {
     }
   }, [token, searchInput]);
 
+  useEffect(() => {
+    const filteredPosts = recentPosts.filter((post) => {
+      return post.postOwner._id === loggedInUserId;
+    });
+    setPosts(filteredPosts);
+  }, [loggedInUserId, recentPosts]);
+
   return (
     <div className='flex justify-between items-center pt-5'>
       {/* brand name */}
@@ -100,55 +123,62 @@ const Header = ({ profileDetails }) => {
       </p>
 
       {/* search input */}
-      <div className='flex items-center hidden md:block'>
-        <form className='flex items-center'>
-          <div className='relative w-full'>
-            <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+      {isSearchInputShow && (
+        <div className='flex items-center hidden md:block'>
+          <form className='flex items-center'>
+            <div className='relative w-full'>
+              <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+                <svg
+                  aria-hidden='true'
+                  className='w-5 h-5 text-gray-500 dark:text-gray-400'
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </div>
+              <input
+                type='text'
+                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-gray-500 block w-full pl-10 p-2.5 duration-500 hover:transition-all'
+                placeholder='Search'
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+              <i
+                className='fa fa-times absolute right-3 top-4 cursor-pointer text-gray-500 hover:text-gray-700'
+                aria-hidden='true'
+                onClick={clearInputHandler}
+              ></i>
+            </div>
+            <button
+              type='submit'
+              className='inline-flex items-center py-2.5 px-3 ml-3 text-sm font-medium text-white bg-blue-600 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+              onClick={searchInputHandler}
+            >
               <svg
                 aria-hidden='true'
-                className='w-5 h-5 text-gray-500 dark:text-gray-400'
-                fill='currentColor'
-                viewBox='0 0 20 20'
+                className='w-5 h-5'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'
               >
                 <path
-                  fillRule='evenodd'
-                  d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
-                  clipRule='evenodd'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
                 ></path>
               </svg>
-            </div>
-            <input
-              type='text'
-              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-gray-500 block w-full pl-10 p-2.5 duration-500 hover:transition-all'
-              placeholder='Search'
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-            />
-          </div>
-          <button
-            type='submit'
-            className='inline-flex items-center py-2.5 px-3 ml-3 text-sm font-medium text-white bg-blue-600 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-            onClick={searchInputHandler}
-          >
-            <svg
-              aria-hidden='true'
-              className='w-5 h-5'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-              ></path>
-            </svg>
-          </button>
-        </form>
-      </div>
+            </button>
+          </form>
+        </div>
+      )}
 
       {/* upload, message, notification, profile & menu drawer */}
       <div className='flex items-center lg:mr-16 mr-6'>
@@ -220,7 +250,7 @@ const Header = ({ profileDetails }) => {
 
           {/* menu drawer */}
           {isMenuOpen && (
-            <div className='fixed inset-0 z-40 flex lg:hidden w-4/6'>
+            <div className='fixed inset-0 z-99 flex lg:hidden w-9/12'>
               <div className='fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity'></div>
               <div className='relative flex-1 flex flex-col max-w-xs w-full bg-white dark:bg-gray-800 transition-all transform'>
                 {/* close button */}
@@ -252,14 +282,7 @@ const Header = ({ profileDetails }) => {
                       <div>
                         <p className='text-center pt-5 font-bold'>Posts</p>
                         <p className='text-center font-medium text-gray-600 pt-1'>
-                          {loggedInUserDetails?.post?.length}
-                        </p>
-                      </div>
-
-                      <div>
-                        <p className='text-center pt-5 font-bold'>Following</p>
-                        <p className='text-center font-medium text-gray-600 pt-1'>
-                          {loggedInUserDetails?.following?.length}
+                          {posts?.length}
                         </p>
                       </div>
 
@@ -267,6 +290,13 @@ const Header = ({ profileDetails }) => {
                         <p className='text-center pt-5 font-bold'>Followers</p>
                         <p className='text-center font-medium text-gray-600 pt-1'>
                           {loggedInUserDetails?.followers?.length}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className='text-center pt-5 font-bold'>Following</p>
+                        <p className='text-center font-medium text-gray-600 pt-1'>
+                          {loggedInUserDetails?.following?.length}
                         </p>
                       </div>
                     </div>

@@ -214,7 +214,7 @@ router.put('/updatePassword', isAuthenticated, async (req, res) => {
   }
 });
 
-// Get all the users profile details => done
+// Get all the users profile details => not done
 router.get('/allProfiles', isAuthenticated, async (req, res) => {
   try {
     const users = await UserModel.find().select('name profilePicUrl');
@@ -286,7 +286,89 @@ router.put('/follow/:id', isAuthenticated, async (req, res) => {
         user,
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+// remove follower from the followers list
+router.put('/removeFollower/:id', isAuthenticated, async (req, res) => {
+  try {
+    // check if the user exists
+    const user = await UserModel.findById(req.params.id);
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    // first remove the user from the followers list of the logged in user
+    const userRemovedFromMyList = await UserModel.findByIdAndUpdate(
+      req.user.id,
+      {
+        $pull: { followers: req.params.id },
+      }
+    );
+
+    // then remove the logged in user from the following list of the user
+    const userRemovedFromFollowingList = await UserModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $pull: { following: req.user.id },
+      }
+    );
+
+    res.status(200).json({
+      message: 'User removed from the followers list successfully',
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+// Get all my followers list
+router.get('/followers', isAuthenticated, async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.id).populate(
+      'followers',
+      'name profilePicUrl'
+    );
+
+    res.status(200).json({
+      message: 'Followers list fetched successfully',
+      followers: user.followers,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+// Get all my following list
+router.get('/following', isAuthenticated, async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.id).populate(
+      'following',
+      'name profilePicUrl'
+    );
+
+    res.status(200).json({
+      message: 'Following list fetched successfully',
+      followers: user.following,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 });
 
 // forgot password => done

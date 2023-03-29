@@ -4,6 +4,22 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { RECENT_POSTS } from '../../redux/types';
 
+const selectedImage = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 480,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+
+  '@media (max-width: 600px)': {
+    width: '95%',
+  },
+};
+
 const UploadPost = ({ handleClose }) => {
   const [selectedImage, setSelectedImage] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -75,12 +91,11 @@ const UploadPost = ({ handleClose }) => {
           />
         </div>
         {selectedImage && (
-          <div className='mt-4'>
+          <div className='my-4 flex justify-center'>
             <img
               src={selectedImage}
               alt='Selected image'
-              className='w-full'
-              style={{ height: '450px' }}
+              className='selectedUploadImage'
             />
           </div>
         )}

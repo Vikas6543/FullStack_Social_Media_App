@@ -49,13 +49,14 @@ const RecentPosts = ({ getRecentPosts }) => {
   const [commentPostId, setCommentPostId] = React.useState('');
   const [deletePostId, setDeletePostId] = React.useState('');
   const [likeAnimate, setLikeAnimate] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const loggedInUserId = useSelector((state) => state.auth.user.user._id);
+  const loggedInUserId = useSelector((state) => state.auth?.user?.user._id);
 
-  const recentPosts = useSelector((state) => state.post.recentPosts);
+  const recentPosts = useSelector((state) => state.post?.recentPosts);
 
   // like & unlike a post
   const likeUnlikePostHandler = async (id) => {
@@ -93,14 +94,19 @@ const RecentPosts = ({ getRecentPosts }) => {
 
   const deletePostHandler = async () => {
     try {
+      setLoading(true);
       const response = await axios.delete(
         `https://mern-stack-app-api-pc1h.onrender.com/post/${deletePostId}`
       );
+      setLoading(false);
       if (response) {
         getRecentPosts();
-        setOpen(false);
+        if (!loading) {
+          setOpen(false);
+        }
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -187,7 +193,11 @@ const RecentPosts = ({ getRecentPosts }) => {
                         className='bg-green-500 text-white px-4 py-2 rounded-lg ml-4'
                         onClick={() => deletePostHandler(post._id)}
                       >
-                        Delete
+                        {loading ? (
+                          <i className='fas fa-spinner fa-spin px-4 text-lg'></i>
+                        ) : (
+                          'Delete'
+                        )}
                       </button>
                     </section>
                   </Box>

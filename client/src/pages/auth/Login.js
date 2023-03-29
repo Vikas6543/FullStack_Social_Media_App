@@ -169,7 +169,7 @@ const Login = () => {
               </div>
               <Grid
                 container
-                className='pt-2 cursor-pointer flex justify-between'
+                className='pt-4 cursor-pointer flex justify-between'
               >
                 <Grid item>
                   <Link to='/register' variant='body2'>
@@ -177,7 +177,7 @@ const Login = () => {
                   </Link>
                 </Grid>
 
-                <Grid item>
+                <Grid item className='pt-3 md:pt-0'>
                   <Link to='/forgotPassword' variant='body2'>
                     {'Forgot Password?'}
                   </Link>

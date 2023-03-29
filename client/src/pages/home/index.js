@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import RecentPosts from '../../components/home/RecentPosts';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { RECENT_POSTS } from '../../redux/types';
+import { RECENT_POSTS, SEARCH_INPUT_SHOW } from '../../redux/types';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    dispatch({ type: SEARCH_INPUT_SHOW, payload: true });
     setAuthHeader(token);
     getRecentPosts();
   }, [token]);

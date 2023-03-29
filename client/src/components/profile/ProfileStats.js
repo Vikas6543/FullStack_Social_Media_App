@@ -1,33 +1,53 @@
 import React from 'react';
 
-const ProfileStats = ({ profileDetails }) => {
+const ProfileStats = ({
+  profilePosts,
+  myPosts,
+  openPostsTab,
+  openFollowersTab,
+  openFollowingTab,
+  postsTab,
+  followersTab,
+  followingTab,
+}) => {
   return (
-    <div className='flex mt-8 border-t border-b py-3 justify-between px-12'>
-      <section>
-        <p className='text-lg font-bold'>Posts</p>
+    <div className='flex mt-8 border-t border-b py-3 justify-between lg:px-12 px-4'>
+      {/* Posts */}
+      <section className='cursor-pointer' onClick={openPostsTab}>
+        <p className={postsTab ? 'lg:text-lg font-bold' : 'lg:text-lg'}>
+          Posts
+        </p>
         <p
           className='text-center font-medium text-gray-600 pt-1 text-lg'
           style={{ fontWeight: '500' }}
         >
-          {profileDetails?.post?.length}
+          {myPosts?.length}
         </p>
       </section>
-      <section>
-        <p className='text-lg font-bold'>Following</p>
+
+      {/* Followers */}
+      <section className='cursor-pointer' onClick={openFollowersTab}>
+        <p className={followersTab ? 'lg:text-lg font-bold' : 'lg:text-lg'}>
+          Followers
+        </p>
         <p
           className='text-center font-medium text-gray-600 pt-1 text-lg'
           style={{ fontWeight: '500' }}
         >
-          {profileDetails?.following?.length}
+          {profilePosts?.followers?.length}
         </p>
       </section>
-      <section>
-        <p className='text-lg font-bold'>Followers</p>
+
+      {/* Following */}
+      <section className='cursor-pointer' onClick={openFollowingTab}>
+        <p className={followingTab ? 'lg:text-lg font-bold' : 'lg:text-lg'}>
+          Following
+        </p>
         <p
           className='text-center font-medium text-gray-600 pt-1 text-lg'
           style={{ fontWeight: '500' }}
         >
-          {profileDetails?.followers?.length}
+          {profilePosts?.following?.length}
         </p>
       </section>
     </div>

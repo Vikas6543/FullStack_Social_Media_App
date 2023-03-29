@@ -99,6 +99,32 @@ li {
   height: 550px;
 }
 
+/* selected upload image */
+.selectedUploadImage {
+  width: 260px;
+  height: 300px;
+}
+
+/* profile post image */
+.profile-post-image {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 83%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.profile-post-image-container:hover .overlay-text {
+  display: flex;
+}
+
 @media screen and (max-width: 950px) {
   .outlet {
     margin-left: 20%;
@@ -112,9 +138,23 @@ li {
   }
 }
 
+@media (max-width: 600px) {
+  .MuiTabs-flexContainer {
+    width: 45%;
+  }
+  .MuiTab-root {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+
 @media screen and (max-width: 500px) {
   .postImage {
     height: 350px;
   }
+  .selectedUploadImage {
+    width: 200px;
+    height: 250px;
+  }
 }
-
